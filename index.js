@@ -123,3 +123,50 @@ function addDepartment() {
     })
 }
 
+function addRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "title",
+            message: "What is the role's title?"
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "What is the role's salary?"
+        },
+        {
+            type: "input",
+            name: "department_id",
+            message: "What is the role's department ID?"
+        }
+    ]).then(function (answer) {
+        db.query("INSERT INTO role SET ?", answer, function (err, res) {
+            if (err) throw err;
+            console.log("Role added.");
+            start();
+        })
+    })
+}
+
+function updateEmployeeRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "employee_id",
+            message: "What is the employee's ID?"
+        },
+        {
+            type: "input",
+            name: "role_id",
+            message: "What is the employee's new role ID?"
+        }
+    ]).then(function (answer) {
+        db.query("UPDATE employee SET role_id = ? WHERE id = ?", [answer.role_id, answer.employee_id], function (err, res) {
+            if (err) throw err;
+            console.log("Employee role updated.");
+            start();
+        })
+    })
+}
+
